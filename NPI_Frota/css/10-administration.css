@@ -1,0 +1,69 @@
+/* NPI FROTA | Matrizes administrativas e permissões. */
+/* ===== ADMINISTRAÇÃO DE PERFIS E PERMISSÕES ===== */
+.admin-panel { padding: 20px; }
+.admin-intro { display:flex; justify-content:space-between; align-items:flex-start; gap:18px; margin-bottom:18px; }
+.admin-intro h3 { margin:0 0 6px; font:800 16px Manrope,Inter,sans-serif; }
+.admin-intro p { margin:0; color:var(--muted); font-size:12px; line-height:1.6; max-width:680px; }
+.admin-callout { padding:13px 15px; border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:8px; background:var(--soft); color:var(--muted); font-size:12px; line-height:1.6; margin-bottom:17px; }
+.admin-callout b { color:var(--text); }
+.admin-table { width:100%; border-collapse:collapse; min-width:760px; font-size:12px; }
+.admin-table th { text-align:left; color:var(--muted); font-size:10px; letter-spacing:.4px; text-transform:uppercase; padding:12px 10px; background:var(--soft); border-bottom:1px solid var(--line); white-space:nowrap; }
+.admin-table td { padding:11px 10px; border-bottom:1px solid var(--line); vertical-align:middle; }
+.admin-table tr:last-child td { border-bottom:0; }
+.admin-table select,.admin-table input,.assignment-form select,.assignment-form input,.role-selector select,.create-role input { width:100%; min-width:115px; padding:9px 10px; border:1px solid var(--bd2); border-radius:7px; background:var(--input); color:var(--text); outline:none; }
+.cell-sub { display:block; color:var(--muted); font-size:10px; margin-top:3px; font-weight:400; }
+.muted-note { color:var(--muted); font-size:10px; }
+.admin-actions { display:flex; align-items:center; gap:14px; padding:16px 0 4px; flex-wrap:wrap; }
+.role-selector { min-width:220px; display:grid; gap:6px; color:var(--muted); font-size:11px; }
+.permission-table { min-width:940px; }
+.permission-table th:not(:first-child),.permission-table td:not(:first-child) { text-align:center; }
+.permission-check { display:flex; flex-direction:column; align-items:center; gap:4px; font-size:9px; color:var(--muted); white-space:nowrap; }
+.permission-check input { width:16px; height:16px; accent-color:var(--accent); cursor:pointer; }
+.permission-check input:disabled { cursor:not-allowed; opacity:.55; }
+.create-role { display:grid; grid-template-columns:minmax(160px,1fr) minmax(160px,1fr) minmax(180px,1fr) auto; align-items:center; gap:10px; border-top:1px solid var(--line); padding-top:18px; margin-top:15px; }
+.create-role small { display:block; color:var(--muted); font-size:10px; margin-top:4px; line-height:1.5; }
+.assignment-form { display:grid; grid-template-columns:1.2fr 1.2fr 1fr auto; align-items:end; gap:10px; background:var(--soft); padding:14px; border-radius:9px; margin-bottom:18px; }
+.assignment-form label { display:block; color:var(--muted); font-size:10px; margin-bottom:6px; }
+.driver-welcome { display:flex; justify-content:space-between; align-items:center; gap:18px; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:22px; margin-bottom:16px; }
+.driver-welcome h2 { margin:6px 0; font:800 22px Manrope,Inter,sans-serif; }
+.driver-welcome p { color:var(--muted); font-size:12px; margin:0; }
+.driver-count { display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:104px; padding:12px; border-radius:10px; background:var(--soft); }
+.driver-count b { font:800 25px Manrope,Inter,sans-serif; }
+.driver-count small { color:var(--muted); font-size:10px; }
+.driver-vehicle-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px; }
+.driver-vehicle-card { padding:18px; background:var(--panel); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); }
+.driver-vehicle-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+.driver-car-icon { width:38px; height:38px; display:grid; place-items:center; border-radius:10px; background:var(--soft); color:var(--accent2); font-size:19px; }
+.driver-plate { display:inline-block; padding:5px 9px; border:1px solid var(--line); border-radius:5px; font-weight:800; letter-spacing:1px; }
+.driver-vehicle-card h3 { margin:10px 0 16px; font:700 15px Manrope,Inter,sans-serif; }
+.driver-km { display:flex; flex-direction:column; gap:4px; padding:13px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.driver-km small { color:var(--muted); font-size:10px; }
+.driver-km strong { font:800 23px Manrope,Inter,sans-serif; }
+.driver-km strong small { font:600 11px 'DM Sans',sans-serif; }
+.driver-vehicle-meta { display:flex; justify-content:space-between; gap:10px; padding-top:11px; font-size:11px; }
+.driver-vehicle-meta span { color:var(--muted); }
+.access-empty { padding:48px 24px; text-align:center; }
+.access-empty>i { font-size:30px; color:var(--muted); }
+.access-empty h3 { margin:12px 0 6px; }
+.access-empty p { max-width:520px; margin:0 auto; color:var(--muted); line-height:1.6; font-size:12px; }
+@media (max-width: 900px) {
+  .admin-intro { flex-direction:column; }
+  .create-role { grid-template-columns:1fr 1fr; }
+  .assignment-form { grid-template-columns:1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .admin-panel { padding:14px; }
+  .create-role,.assignment-form { grid-template-columns:1fr; }
+  .driver-welcome { align-items:flex-start; }
+}
+
+
+/* Cadastro de usuário diretamente no NPI FROTA */
+.create-user-form { padding:16px; margin:0 0 18px; border:1px solid var(--line); border-radius:10px; background:var(--soft); }
+.create-user-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.create-user-grid label { display:block; margin-bottom:6px; color:var(--muted); font-size:11px; }
+.create-user-grid input { width:100%; min-width:0; padding:10px 11px; border:1px solid var(--bd2); border-radius:7px; background:var(--input); color:var(--text); outline:none; }
+.create-user-actions { display:flex; align-items:center; justify-content:flex-end; gap:10px; flex-wrap:wrap; margin-top:14px; }
+.create-user-actions small { margin-right:auto; color:var(--muted); font-size:10px; line-height:1.5; }
+.form-hint { display:block; margin-top:5px; color:var(--muted); font-size:10px; }
+@media (max-width:700px) { .create-user-grid { grid-template-columns:1fr; } .create-user-actions { justify-content:stretch; } .create-user-actions .btn { flex:1; } }

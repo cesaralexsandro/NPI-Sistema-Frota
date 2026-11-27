@@ -1,0 +1,194 @@
+NPI FROTA — SUPABASE (ETAPA 3)
+================================
+
+O QUE ESTA VERSÃO FAZ
+- Inicializa o cliente oficial Supabase JS v2 com a URL e a chave pública do projeto informado.
+- Adiciona autenticação por e-mail e senha do Supabase Auth.
+- Conecta ao PostgreSQL e carrega os cadastros-base: Empresas, Filiais, Centros de Custo,
+  Projetos, Veículos e Motoristas.
+- Também possui CRUD conectado para Abastecimentos, Retiradas, Devoluções e Manutenções.
+- O acesso aos registros é controlado por permissões de perfil e políticas RLS por empresa.
+- Mantém a identidade visual NPI FROTA e o layout modular do projeto.
+- Outros módulos continuam aguardando integração específica antes de gravar dados reais.
+
+ANTES DE USAR
+1. Confirme que executou as Etapas 1 e 2 no SQL Editor do Supabase.
+2. Em Authentication > Users, crie/confirme o usuário administrador com e-mail e senha.
+3. Abra sql/NPI_Frota_supabase_etapa_3_acesso.sql. Substitua o UUID pelo ID do usuário de Authentication > Users, e ajuste nome/e-mail/empresa.
+4. Execute o script completo no SQL Editor. Ele cria/vincula a empresa inicial e o perfil do administrador, além de liberar RLS somente para os seis módulos já conectados.
+5. Extraia este ZIP e abra a pasta NPI_Frota usando um servidor local (recomendado: VS Code + extensão Live Server). Evite abrir index.html diretamente por file://.
+6. Entre com o mesmo e-mail e senha cadastrados em Authentication > Users.
+
+IMPORTANTE SOBRE A SEGURANÇA
+- A chave sb_publishable é pública por design e está em supabase-config.js. A RLS limita o acesso aos registros da empresa vinculada ao usuário ativo.
+- Nunca coloque sb_secret ou service_role no navegador.
+- Não habilite acesso para anon.
+- Os módulos Operações, Controle da Frota, Financeiro, Relatórios e Administração ainda precisam da próxima etapa de mapeamento de campos e políticas RLS antes de usar dados reais.
+- O perfil inicial é vinculado manualmente pelo SQL porque ainda não existe uma tela administrativa segura de provisionamento de usuários.
+
+ARQUIVOS PRINCIPAIS
+- index.html: estrutura da página e carregamento ordenado dos scripts e estilos.
+- js/: lógica do sistema dividida por responsabilidade. Consulte ESTRUTURA_CODIGO.txt.
+- css/: estilos separados por áreas da interface.
+- supabase-config.js: URL e publishable key.
+- supabase-client.js: inicialização do cliente.
+- sql/NPI_Frota_supabase_etapa_3_acesso.sql: bootstrap de usuário e políticas RLS.
+
+
+ATUALIZAÇÃO — SESSÃO PERSISTENTE E SEM PISCAR A TELA DE LOGIN
+- A sessão continua persistida pelo Supabase Auth no armazenamento local do navegador.
+- Ao atualizar a página, o NPI FROTA agora mostra uma tela neutra de verificação enquanto recupera a sessão.
+- Se houver uma sessão válida, abre diretamente o sistema, sem exibir o formulário de login.
+- O login só aparece quando não existe sessão válida ou quando o usuário encerra a sessão.
+- Para manter a sessão entre aberturas, use o mesmo navegador e não limpe os dados do site.
+
+ETAPA 4 — PERFIS E PERMISSÕES POR USUÁRIO
+=========================================
+Arquivo: sql/NPI_Frota_perfis_permissoes.sql
+
+IMPORTANTE: esta migração deve ser executada DEPOIS das Etapas 1, 2 e 3.
+Ela adiciona as tabelas e políticas de acesso sem apagar os cadastros existentes.
+
+1. Abra o arquivo SQL no Bloco de Notas e substitua
+   COLE-O-EMAIL-DO-ADMINISTRADOR pelo e-mail da conta administradora atual
+   (o mesmo e-mail cadastrado em Authentication > Users e public.usuarios).
+2. No Supabase, abra SQL Editor > New Query, cole o arquivo inteiro e clique Run.
+3. O script cria os perfis Administrador, Gestor de Frota, Motorista,
+   Manutenção, Financeiro, Solicitante e Supervisor e uma matriz inicial.
+4. O script vincula o perfil Administrador ao usuário informado.
+5. Para criar outro login, adicione primeiro a conta em Authentication > Users.
+   O gatilho cria o cadastro complementar como Inativo. Depois, no NPI FROTA,
+   abra Administração > Usuários e Acessos, escolha o perfil, vincule o cadastro
+   de motorista (quando aplicável) e ative o usuário.
+6. Em Administração > Perfis e Permissões, crie perfis personalizados e ajuste
+   as ações de visualizar, incluir, alterar, excluir, aprovar e exportar.
+7. Em Administração > Veículos por Motorista, atribua os veículos permitidos.
+   O login precisa estar associado ao cadastro correto na tabela de motoristas.
+8. O motorista entra diretamente em Meu Painel. Não recebe Dashboard gerencial
+   nem telas gerais de cadastros; a tela mostra placa, modelo, situação e km dos
+   veículos que estejam atribuídos e dentro do período ativo.
+
+PERFIS INICIAIS
+- Administrador: acesso total e gerenciamento de usuários/perfis.
+- Gestor de Frota: cadastros, operação e gestão geral da frota.
+- Motorista: Meu Painel e veículos atribuídos; sem Dashboard gerencial.
+- Manutenção: veículos, checklists, manutenção, pneus e documentos autorizados.
+- Financeiro: dados necessários para despesas, rateios e relatórios autorizados.
+- Solicitante: consulta de veículos e solicitações de reservas.
+- Supervisor: acompanhamento operacional e aprovações autorizadas.
+
+SEGURANÇA E LIMITES DESTA ETAPA
+- A interface filtra menus, páginas, botões e ações por permissão. As políticas
+  RLS reforçam as regras no banco para empresas, filiais, centros de custo,
+  projetos, veículos, motoristas, usuários, perfis, permissões e atribuições.
+- A atribuição de perfil/usuário passa por uma função administrativa segura;
+  o navegador não recebe permissão direta para editar vínculos de perfil/usuário.
+- A tela do motorista consulta somente veículos atribuídos. As políticas RLS
+  restringem as linhas de veículos retornadas. RLS é controle por linha; se a
+  empresa precisar ocultar colunas sensíveis (ex.: Renavam, chassi ou valor de
+  aquisição) até mesmo em chamadas diretas à API, será necessária uma camada
+  adicional de permissões por coluna ou uma view/RPC dedicada.
+- Outros módulos já aparecem na matriz, mas ainda não têm CRUD no navegador nem
+  políticas RLS específicas até serem integrados. Permanecem sem grants de acesso.
+- Crie/invite contas Auth pelo painel Supabase; nunca exponha sb_secret ou
+  service_role no JavaScript do navegador.
+- Depois de alterar permissões, o usuário deverá entrar novamente para recarregar
+  o menu e os direitos.
+
+
+ETAPA 6 — MANUTENÇÕES
+=====================
+Arquivo SQL: sql/NPI_Frota_manutencoes.sql
+Guia: docs/LEIA-ME_MANUTENCOES.txt
+
+- Executar o script da Etapa 6 no SQL Editor do Supabase antes de usar o módulo.
+- O script complementa a tabela existente sem apagar manutenções anteriores.
+- Manutenções têm CRUD no Supabase com permissão por perfil e RLS vinculada à empresa do veículo.
+- O total é calculado pela soma de Valor das peças + Mão de obra.
+- Ao iniciar uma manutenção, o veículo passa para Manutenção. Ao concluir, volta
+  para Disponível se não houver outra manutenção em andamento.
+
+
+MÓDULO DE PNEUS
+---------------
+Consulte docs/LEIA-ME_PNEUS.txt para instalar o módulo. Execute primeiro
+sql/NPI_Frota_pneus.sql no SQL Editor do Supabase e depois abra o projeto
+com Live Server. O módulo utiliza as tabelas pneus e movimentacoes_pneus
+criadas na Etapa 2; este script apenas complementa a estrutura e cria RLS.
+
+
+ATUALIZAÇÃO — RECAPAGEM E LOCALIZAÇÃO ATUAL DOS PNEUS
+=====================================================
+1. Execute sql/NPI_Frota_recapagem_localizacao.sql no SQL Editor do Supabase.
+2. Substitua a pasta antiga pela pasta NPI_Frota deste pacote.
+3. Abra com Live Server e entre com seu usuário.
+4. Em Controle da Frota > Movimentações de Pneus, selecione Envio para recapagem ou Retorno de recapagem. O campo Número da recapagem será exibido e sugerido automaticamente.
+5. Em Controle da Frota > Localização dos Pneus, consulte o veículo/posição atual, estoque ou situação de serviço.
+6. Em Controle da Frota > Movimentações de Pneus, consulte o histórico cronológico completo.
+A página Localização dos Pneus utiliza as mesmas permissões de visualização do módulo Pneus.
+
+ATUALIZAÇÃO — CADASTROS AUXILIARES (16/11/2026)
+------------------------------------------------
+Foram adicionados os cadastros auxiliares Fornecedores e Oficinas. O cadastro separado de Postos de Combustível foi retirado da operação atual. Os vínculos e campos antigos relacionados a postos permanecem no banco e no mapeamento de compatibilidade para preservar registros históricos.
+
+
+OTIMIZAÇÃO DO KANBAN E DO CARREGAMENTO
+--------------------------------------
+A versão atual deixa a mudança de situação dos veículos imediata no Kanban e grava
+apenas o veículo movimentado no Supabase. A tela não executa mais uma recarga completa
+de todos os cadastros a cada arraste. As leituras gerais do banco também são feitas em
+paralelo. Em caso de falha, a interface restaura a situação anterior.
+
+Não é necessário executar scripts SQL para esta atualização.
+
+
+ETAPA — MÓDULO MULTAS
+=====================
+Consulte docs/LEIA-ME_MULTAS.txt. A integração conecta a tela Multas à tabela public.multas já criada na Etapa 2. Execute sql/NPI_Frota_multas.txt no Supabase antes de testar.
+
+
+ETAPA — DOCUMENTOS E LICENCIAMENTO
+==================================
+Consulte docs/LEIA-ME_DOCUMENTOS_LICENCIAMENTO.txt. O módulo conecta a tela Documentos à tabela public.documentos já existente, acrescenta campos de exercício e pagamento para IPVA/licenciamento e configura anexos privados no Supabase Storage. Execute sql/NPI_Frota_documentos_licenciamento.txt antes de usar o módulo.
+
+
+ETAPA — SEGUROS E SINISTROS
+============================
+Consulte docs/LEIA-ME_SEGUROS_SINISTROS.txt. Execute sql/NPI_Frota_seguros_sinistros.txt
+no SQL Editor antes de usar as páginas Seguros e Sinistros. O arquivo .sql também está disponível na mesma pasta. A migração complementa
+a tabela public.seguros existente, cria public.sinistros, configura RLS por empresa
+e cria o bucket privado npi-seguros-sinistros para apólices e anexos de ocorrências.
+As permissões iniciais de Sinistros são copiadas da matriz de Seguros e podem ser
+ajustadas em Administração > Perfis e Permissões.
+
+ATUALIZAÇÃO DE RATEIOS (18/11/2026)
+---------------------------------
+O formulário de rateio apresenta um seletor de destino com duas etapas:
+1. Escolha o tipo: Veículo ou Centro de custo.
+2. Escolha o cadastro correspondente.
+
+Os novos rateios utilizam as colunas veiculo_id ou centro_custo_id. A coluna projeto_id
+e os vínculos antigos permanecem no banco para preservar o histórico, mas não são
+mais oferecidos para novos lançamentos. Não é necessário executar SQL novamente.
+
+
+MÓDULOS DE UTILIZAÇÕES E CHECKLISTS
+Consulte docs/LEIA-ME_UTILIZACOES_CHECKLISTS.txt. Para instalar a integração no Supabase, execute sql/NPI_Frota_utilizacoes_checklists.txt.
+
+Checklists: nesta versão, manter “Exige fotografia” como “Não”; o envio de fotos por item será implementado numa atualização futura.
+
+
+Atualização de operações do motorista (19/11/2026): execute o script sql/NPI_Frota_aprovacao_km_data_devolucao.sql para ativar a autorização do gestor em divergências de quilometragem e o campo de data/hora efetiva na devolução. Consulte docs/LEIA-ME_AJUSTE_KM_E_DEVOLUCAO.txt.
+
+
+ATUALIZAÇÃO — PROJETOS E POSTOS DE COMBUSTÍVEL RETIRADOS DA OPERAÇÃO
+=====================================================================
+- Projetos e Postos de Combustível não aparecem no menu e não podem ser abertos como módulos operacionais.
+- Os formulários atuais não oferecem seleção de Projeto ou Posto de Combustível.
+- Relatórios financeiros não oferecem mais agrupamento por Projeto.
+- Tabelas, colunas, vínculos e registros históricos no Supabase foram preservados. Esta atualização não executa exclusões nem alterações destrutivas no banco.
+- Abastecimentos continuam sendo registrados normalmente, com tipo de combustível, litros, quilometragem, valores e centro de custo.
+
+
+ATUALIZAÇÃO — RESERVAS
+Consulte docs/LEIA-ME_RESERVAS.txt e execute sql/NPI_Frota_reservas_aprovacao.sql após o SQL principal de permissões.

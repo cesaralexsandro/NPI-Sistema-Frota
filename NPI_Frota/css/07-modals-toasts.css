@@ -1,0 +1,132 @@
+/* NPI FROTA | Modais, formulários e notificações. */
+/* ===== MODAL (formulário) E AVISO (toast) ===== */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 90;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.modal {
+  width: min(620px,100%);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 25px 80px rgba(0,0,0,.5);
+  max-height: 90vh;
+  overflow: auto;
+  padding: 23px;
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.modal-head h2 {
+  font: 800 20px Manrope,Inter,system-ui,sans-serif;
+  margin: 5px 0;
+}
+
+.close-modal {
+  background: var(--soft);
+  border-radius: 7px;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  color: var(--muted);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.form-row.full {
+  grid-column: 1/-1;
+}
+
+.form-row label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.form-row input,
+.form-row select,
+.form-row textarea {
+  width: 100%;
+  border: 1px solid var(--bd2);
+  background: var(--input);
+  border-radius: 7px;
+  padding: 10px;
+  font-size: 12px;
+  outline: none;
+}
+
+.form-row textarea {
+  min-height: 78px;
+  resize: vertical;
+}
+
+input: focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent2)!important;
+  box-shadow: 0 0 0 3px rgba(230,75,67,.18);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background: #242b35;
+  color: #fff;
+  padding: 12px 17px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  font-size: 12px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: .2s;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: none;
+}
+
+footer {
+  padding: 25px 2px 4px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+
+
+/* Anexos privados do módulo Documentos */
+.document-file-field input[type="file"] { padding:10px; border:1px dashed var(--line); border-radius:10px; background:var(--soft, transparent); }
+.document-file-current { display:block; margin-top:7px; color:var(--muted); font-size:12px; line-height:1.5; }
+.open-document { color:var(--accent); }

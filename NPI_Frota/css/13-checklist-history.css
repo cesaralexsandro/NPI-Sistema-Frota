@@ -1,0 +1,20 @@
+/* NPI FROTA | Histórico detalhado de checklists */
+.checklist-detail-modal { width: min(760px, 100%); }
+.checklist-detail-subtitle { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+.checklist-detail-summary { display: flex; gap: 24px; flex-wrap: wrap; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--soft); margin-bottom: 14px; }
+.checklist-detail-summary span { display: grid; gap: 5px; }
+.checklist-detail-summary small { color: var(--muted); font-size: 11px; }
+.checklist-detail-summary b { font-size: 13px; }
+.checklist-detail-notes { padding: 12px 14px; border-left: 3px solid var(--accent); background: var(--soft); border-radius: 7px; margin-bottom: 14px; }
+.checklist-detail-notes p { margin: 6px 0 0; white-space: pre-wrap; }
+.checklist-detail-list { display: grid; gap: 9px; max-height: 52vh; overflow: auto; padding-right: 3px; }
+.checklist-answer-card { border: 1px solid var(--line); border-radius: 9px; padding: 12px; background: var(--panel); }
+.checklist-answer-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.checklist-answer-top b { font-size: 13px; }
+.checklist-answer-card p { white-space: pre-wrap; margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+.checklist-photo-note { display: block; margin-top: 8px; color: var(--muted); }
+@media (max-width: 640px) {
+  .checklist-detail-backdrop { padding: 8px; }
+  .checklist-detail-modal { padding: 16px; max-height: 95vh; }
+  .checklist-answer-top { flex-direction: column; }
+}

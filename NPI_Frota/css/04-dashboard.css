@@ -1,0 +1,332 @@
+/* NPI FROTA | Cards, gráficos, alertas e dashboard. */
+/* ===== DASHBOARD (cards, gráfico, rosca, alertas) ===== */
+.stat-card,
+.panel,
+.table-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.stat-card {
+  padding: 17px 18px;
+}
+
+.stat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: rgba(230,75,67,.13);
+  color: var(--accent2);
+  font-size: 16px;
+}
+
+.stat-value {
+  font: 800 25px Manrope,Inter,system-ui,sans-serif;
+  margin: 13px 0 4px;
+}
+
+.stat-foot {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.dashboard-grid {
+  grid-template-columns: 1.55fr 1fr;
+  margin-bottom: 16px;
+}
+
+.bottom-grid {
+  grid-template-columns: 1.2fr 1fr;
+}
+
+.panel {
+  padding: 18px;
+}
+
+.panel-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 17px;
+}
+
+.panel-title h3,
+.table-head h3 {
+  font: 700 13px Manrope,Inter,system-ui,sans-serif;
+  margin: 0;
+}
+
+.panel-title small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.chart-wrap {
+  height: 220px;
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+  padding: 8px 7px 0;
+  border-bottom: 1px solid var(--line);
+  background: repeating-linear-gradient(to bottom,transparent 0,transparent 53px,var(--line) 54px);
+}
+
+.bar-group {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+}
+
+.bar {
+  width: 11px;
+  border-radius: 4px 4px 0 0;
+  background: var(--accent);
+  min-height: 3px;
+}
+
+.bar.alt {
+  background: var(--blue);
+}
+
+.bar-label {
+  position: absolute;
+  bottom: -20px;
+  font-size: 9px;
+  color: var(--muted);
+  text-transform: capitalize;
+}
+
+.legend {
+  display: flex;
+  gap: 14px;
+  margin-top: 29px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.legend i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--accent);
+  margin-right: 5px;
+}
+
+.legend i.alt {
+  background: var(--blue);
+}
+
+.donut-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  padding: 15px 0;
+  flex-wrap: wrap;
+}
+
+.donut {
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.donut b {
+  width: 91px;
+  height: 91px;
+  border-radius: 50%;
+  background: var(--panel);
+  display: grid;
+  place-items: center;
+  font: 800 25px Manrope,Inter,system-ui,sans-serif;
+}
+
+.donut-legend {
+  display: grid;
+  gap: 11px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.donut-legend span:before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--c);
+  margin-right: 7px;
+}
+
+.table-card {
+  overflow: hidden;
+}
+
+.table-head {
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table-head a {
+  font-size: 11px;
+  color: var(--accent2);
+  cursor: pointer;
+}
+
+.table-scroll {
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+th {
+  text-align: left;
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 11px 17px;
+}
+
+td {
+  padding: 12px 17px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+td.strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+tbody tr:hover {
+  background: var(--soft);
+}
+
+.plate {
+  font-weight: 700;
+  color: var(--text);
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 3px 7px;
+  font-size: 11px;
+  letter-spacing: .5px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.tag:before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.tag.ok {
+  background: rgba(46,155,87,.15);
+  color: var(--green);
+}
+
+.tag.warn {
+  background: rgba(242,164,60,.17);
+  color: #b9770e;
+}
+
+html[data-theme=dark] .tag.warn {
+  color: var(--orange);
+}
+
+.tag.bad {
+  background: rgba(230,75,67,.15);
+  color: var(--accent2);
+}
+
+.tag.info {
+  background: rgba(102,126,234,.16);
+  color: var(--blue);
+}
+
+.alert {
+  display: flex;
+  gap: 11px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.alert:first-of-type {
+  border-top: 0;
+}
+
+.alert-icon {
+  width: 29px;
+  height: 29px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: rgba(242,164,60,.16);
+  color: var(--orange);
+  display: grid;
+  place-items: center;
+}
+
+.alert.bad .alert-icon {
+  background: rgba(230,75,67,.16);
+  color: var(--accent2);
+}
+
+.alert b {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+.alert small {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.empty {
+  padding: 35px;
+  text-align: center;
+  color: var(--muted);
+}
+

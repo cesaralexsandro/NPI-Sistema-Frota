@@ -1,0 +1,31 @@
+NPI FROTA — CADASTRO DE USUÁRIOS PELA TELA
+
+O botão “Cadastrar usuário” usa uma Supabase Edge Function para criar a conta no Auth com segurança. A chave SERVICE_ROLE fica somente no ambiente seguro da função e nunca é enviada ao navegador.
+
+CONFIGURAÇÃO ÚNICA (necessária antes do primeiro cadastro)
+
+Opção recomendada — Supabase CLI:
+1. Instale e autentique o Supabase CLI.
+2. No terminal, entre na pasta do projeto NPI_Frota.
+3. Vincule o projeto: supabase link --project-ref SEU_PROJECT_REF
+4. Publique a função: supabase functions deploy npi-create-user
+5. Confirme no painel Supabase > Edge Functions que npi-create-user está publicada.
+
+As variáveis SUPABASE_URL, SUPABASE_ANON_KEY e SUPABASE_SERVICE_ROLE_KEY são disponibilizadas no ambiente das Edge Functions pelo Supabase. Se o projeto não as disponibilizar automaticamente, configure-as em Edge Functions > Secrets. Nunca coloque a SERVICE_ROLE_KEY em arquivos JavaScript, HTML ou no supabase-config.js.
+
+COMO USAR
+1. Entre no NPI FROTA com uma conta que tenha o perfil Administrador.
+2. Abra Administração > Usuários e Acessos.
+3. Clique em “Cadastrar usuário”, informe nome, e-mail e uma senha inicial com pelo menos 8 caracteres.
+4. Clique em “Criar conta”.
+5. Na tabela de usuários, escolha o perfil e, se for motorista, vincule o cadastro de motorista; clique em “Salvar”. A conta nasce Inativa e só recebe acesso após essa etapa.
+6. Entregue a senha inicial ao usuário por um canal seguro e oriente-o a alterá-la após o primeiro acesso.
+
+SEGURANÇA
+- A função verifica a sessão e confirma no banco que o solicitante é Administrador.
+- A chave privilegiada do Supabase é usada apenas dentro da Edge Function.
+- O gatilho já existente cria o registro complementar em public.usuarios como Inativo.
+- Não é necessário inserir usuários manualmente no painel Authentication > Users depois que a função estiver publicada.
+
+PLACAS
+Novos veículos usam o padrão Mercosul ABC1D23 (3 letras, 1 número, 1 letra e 2 números). O campo limita o comprimento e filtra caracteres incompatíveis. Registros antigos no padrão ABC-1234 continuam editáveis sem conversão automática.

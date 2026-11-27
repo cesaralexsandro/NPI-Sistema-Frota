@@ -1,0 +1,34 @@
+NPI FROTA — CENTRAL DE NOTIFICAÇÕES
+===================================
+
+INSTALAÇÃO
+1. Faça backup da pasta do NPI FROTA.
+2. No Supabase, abra SQL Editor > New Query.
+3. Abra sql/NPI_Frota_notificacoes.sql, copie todo o conteúdo e execute.
+4. Extraia e utilize a versão atualizada do projeto.
+5. Entre novamente no NPI FROTA como Administrador.
+
+COMO ENVIAR UM AVISO
+1. Acesse Administração > Notificações.
+2. Informe título, tipo, categoria e mensagem.
+3. Escolha os destinatários: empresa inteira, perfis ou usuários específicos.
+4. Opcionalmente escolha uma área de destino do sistema.
+5. Clique em Enviar notificação.
+
+COMO O USUÁRIO RECEBE
+- O aviso aparece no sino da barra superior.
+- O contador mostra quantas mensagens ainda não foram lidas.
+- Com o NPI FROTA aberto, novos avisos chegam em tempo real.
+- Se o usuário estiver desconectado, a notificação fica salva e aparece no próximo login.
+- O usuário pode marcar avisos como lidos ou arquivá-los.
+
+SEGURANÇA
+- Cada linha pertence a um usuário e a uma empresa.
+- O usuário autenticado só consulta as próprias notificações.
+- O histórico de comunicados enviados é visível ao administrador da empresa.
+- O envio é feito por RPC SECURITY DEFINER e somente Administradores podem publicar.
+- Não coloque chaves secretas/service_role no navegador.
+
+LIMITE DESTA ETAPA
+Esta é uma central de notificações dentro do NPI FROTA. Não envia e-mail, SMS,
+WhatsApp nem notificações push quando o navegador está fechado.

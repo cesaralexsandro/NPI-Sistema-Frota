@@ -1,0 +1,28 @@
+NPI FROTA — TROCAR USUÁRIO / CONTAS NESTE COMPUTADOR
+
+O QUE FOI ADICIONADO
+- Depois que uma conta entra com sucesso no NPI FROTA, ela passa a aparecer na tela de autenticação deste navegador.
+- Ao clicar em Sistema > Trocar usuário, a sessão atual é encerrada e a tela mostra as contas já utilizadas neste computador.
+- Ao selecionar uma conta, o e-mail é preenchido automaticamente. O usuário ainda precisa digitar a senha para entrar.
+- É possível remover uma conta da lista local sem excluir o usuário do Supabase.
+- Também é possível digitar outro e-mail para entrar com uma conta que ainda não foi usada neste navegador.
+
+SEGURANÇA E PRIVACIDADE
+- O NPI FROTA NÃO armazena senhas nessa lista.
+- O NPI FROTA NÃO armazena tokens de sessão nessa lista.
+- Somente identificador, e-mail, nome, perfil/empresa para exibição e data do último acesso são guardados no localStorage do navegador.
+- A lista é local deste navegador e desta origem (URL). Outro computador, navegador ou endereço localhost/127.0.0.1 pode ter uma lista diferente.
+- Remover uma conta apenas apaga o atalho local; não desativa nem exclui a conta no Supabase.
+
+TESTE
+1. Atualize a pasta do projeto com esta versão.
+2. Entre com uma conta válida do Supabase.
+3. No menu Sistema, clique em Trocar usuário.
+4. A conta utilizada deverá aparecer na lista.
+5. Selecione a conta, digite a senha e entre novamente.
+6. Entre com uma segunda conta válida para que ela também passe a aparecer na lista.
+ATALHO NA BARRA SUPERIOR
+------------------------
+O ícone de usuário ao lado do botão Ajuda também abre o seletor de contas.
+Ele encerra a sessão atual e apresenta as contas lembradas neste navegador;
+a senha continua sendo solicitada para autenticar a conta escolhida.

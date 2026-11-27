@@ -1,0 +1,141 @@
+/* NPI FROTA | Cabeçalhos e área de conteúdo. */
+/* ===== CONTEÚDO E CABEÇALHO DA PÁGINA ===== */
+.content {
+  padding: 30px 36px 18px;
+  max-width: 1600px;
+  margin: auto;
+}
+
+.page-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  gap: 18px;
+}
+
+.eyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+}
+
+.page-head h1 {
+  font: 800 26px Manrope,Inter,system-ui,sans-serif;
+  margin: 7px 0 5px;
+}
+
+.page-head p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.head-actions {
+  display: flex;
+  gap: 9px;
+}
+
+.btn {
+  border: 1px solid var(--line);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font: 600 11px 'DM Sans',Inter,system-ui,sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(212,60,22,.25);
+}
+
+.btn-primary:hover {
+  filter: brightness(.9);
+}
+
+.btn-light {
+  background: var(--panel);
+  color: var(--muted);
+}
+
+.btn-light:hover {
+  color: var(--text);
+}
+
+.grid {
+  display: grid;
+  gap: 15px;
+}
+
+.stats {
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  margin-bottom: 17px;
+}
+
+
+
+/* Abas de módulos agrupados: empresas/filiais e controle da frota.
+   As cores usam as variáveis globais do tema para acompanhar claro/escuro. */
+.module-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  transition: background .18s ease, border-color .18s ease;
+}
+
+.module-tabs-secondary {
+  margin-top: -8px;
+  background: var(--soft);
+}
+
+.module-tab {
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 16px;
+  color: var(--muted);
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+
+.module-tab:hover {
+  background: var(--soft);
+  color: var(--text);
+}
+
+.module-tabs-secondary .module-tab:hover {
+  background: var(--panel);
+}
+
+.module-tab.active {
+  background: #2453df;
+  color: #fff;
+  box-shadow: 0 2px 7px rgba(36, 83, 223, .2);
+}
+
+.module-tab.active:hover {
+  background: #1d49ca;
+  color: #fff;
+}
+
+.module-tab:focus-visible {
+  outline: 2px solid #5b83ff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .module-tabs { gap: 5px; padding: 6px; border-radius: 11px; }
+  .module-tab { flex: 1 1 auto; padding: 9px 10px; font-size: 13px; }
+}

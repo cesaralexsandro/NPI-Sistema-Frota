@@ -1,0 +1,93 @@
+/* NPI FROTA | Barra superior e breadcrumb. */
+/* ===== TOPBAR (barra superior) ===== */
+.topbar {
+  height: 67px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 34px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.breadcrumb {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.breadcrumb span {
+  padding: 0 9px;
+  opacity: .5;
+}
+
+.breadcrumb b {
+  color: var(--text);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.icon-button,
+.help-button,
+.mobile-menu {
+  color: var(--muted);
+}
+
+.icon-button {
+  font-size: 18px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.icon-button:hover,
+.help-button:hover {
+  color: var(--text);
+}
+
+.icon-button em {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: var(--accent2);
+  border-radius: 50%;
+  right: 0;
+  top: 0;
+}
+
+.help-button {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.top-avatar {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+
+.top-avatar:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  box-shadow: 0 0 0 3px rgba(212, 60, 22, .16);
+}
+
+.top-avatar:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.mobile-menu {
+  display: none;
+  font-size: 20px;
+}
+

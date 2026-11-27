@@ -1,0 +1,12 @@
+NPI FROTA — RELATÓRIOS FINANCEIROS
+
+O menu Relatórios agora apresenta uma visão financeira com filtros de período, empresa, filial, categoria e situação. É possível agrupar por categoria, situação, mês, veículo, centro de custo ou fornecedor.
+
+Os indicadores mostram total líquido, pago, pendente, vencido, distribuído em rateios e saldo não rateado. O resumo contabiliza cada despesa uma única vez. Nas visões por veículo e centro de custo, o relatório utiliza os rateios quando existirem; despesas sem rateios usam o vínculo direto, se houver, e o saldo restante aparece como não rateado.
+
+O relatório detalhado exibe até 100 lançamentos na tela. A exportação CSV inclui todos os lançamentos filtrados. Para exportar é necessária a permissão de exportação no módulo Despesas.
+
+Não há migração SQL para esta atualização. O relatório usa as tabelas despesas e rateios existentes. Ao abrir Relatórios, o sistema carrega esses módulos e os cadastros relacionados respeitando as permissões RLS e os perfis.
+
+
+Observação: Projetos foi retirado das opções de agrupamento e da operação atual. Vínculos antigos no banco são preservados e não são apagados por esta atualização.

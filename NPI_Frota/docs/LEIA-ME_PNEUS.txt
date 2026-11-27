@@ -1,0 +1,75 @@
+NPI FROTA — MÓDULO DE PNEUS
+============================
+
+O que foi conectado
+-------------------
+1. Cadastro de pneus: código, marca, modelo, medida, DOT, número de série,
+   aquisição, valor de compra, fornecedor, profundidade inicial, pressão
+   recomendada, vida útil estimada e local de armazenamento.
+2. Estado operacional: situação atual, veículo e posição atuais, profundidade
+   atual, pressão atual, quilometragem inicial e quantidade de recapagens.
+   Esses campos operacionais são atualizados pelo histórico, não editados
+   diretamente no cadastro.
+3. Movimentações: instalação, rodízio, remoção, envio/retorno de reparo,
+   envio/retorno de recapagem, inspeção e descarte.
+4. Regras: histórico de movimentos não pode ser editado/excluído pela interface;
+   o banco valida empresa, veículo e transições de situação.
+5. Alertas: o Dashboard avisa quando a profundidade registrada chega a 3 mm ou
+   menos; a marcação crítica é usada em 1,6 mm ou menos. Esses limites são
+   alertas operacionais do sistema e devem ser ajustados conforme orientação
+   técnica aplicável à frota.
+
+Instalação
+----------
+1. Faça uma cópia de segurança da pasta atual NPI_Frota.
+2. No Supabase, abra SQL Editor > New Query.
+3. Abra sql/NPI_Frota_pneus.txt (ou .sql), copie o conteúdo inteiro e execute.
+4. Se o banco tiver mais de uma empresa e já houver pneus antigos sem empresa_id,
+   será necessário atribuir a empresa correta a esses registros no SQL Editor.
+5. Substitua a pasta do projeto pela pasta NPI_Frota deste ZIP.
+6. Abra NPI_Frota/index.html pelo VS Code com Live Server.
+
+Não execute novamente as Etapas 1, 2 ou 3. O arquivo deste módulo complementa
+as tabelas pneus e movimentacoes_pneus que já existem desde a Etapa 2. Ele não
+insere dados fictícios.
+
+Como usar
+---------
+A) Cadastros > Pneus > Novo registro
+   Registre identificação, medida, DOT, aquisição, fornecedor, sulco inicial,
+   pressão recomendada, vida útil estimada e local onde está armazenado.
+   Situação e campos de instalação são administrados pelo histórico.
+
+B) Controle da Frota > Movimentações de Pneus > Novo registro
+   - Instalação: escolha pneu, veículo, posição e quilometragem.
+   - Rodízio: escolha o pneu instalado, veículo e nova posição.
+   - Remoção: escolha o pneu; o veículo atual é sugerido automaticamente.
+   - Envio/retorno de reparo e recapagem: registre cada etapa separadamente.
+   - Inspeção: informe profundidade do sulco e pressão aferida.
+   - Descarte: encerra o ciclo do pneu.
+
+O Supabase atualiza automaticamente o estado do pneu após cada movimentação.
+Os registros do histórico são permanentes: para corrigir uma informação, registre
+uma nova movimentação compensatória. A exclusão de um pneu com histórico é
+bloqueada pelo relacionamento do banco.
+
+Permissões iniciais
+-------------------
+O script cria permissões iniciais apenas para perfis Gestor de Frota,
+Manutenção e Supervisor quando as linhas ainda não existem. Ele não sobrescreve
+permissões personalizadas já salvas. O Administrador tem acesso por regra global.
+Confira Administração > Perfis e Permissões após a instalação.
+
+
+CUSTO DE REPARO/RECAPAGEM
+No formulário Movimentações de Pneus existe o campo 'Custo da movimentação (R$)'. Informe nele o valor cobrado pelo serviço. O campo aceita zero ou valor positivo; o histórico mantém o custo associado à movimentação.
+
+
+ATUALIZAÇÃO — NÚMERO DA RECAPAGEM E LOCALIZAÇÃO DOS PNEUS
+========================================================
+- Execute sql/NPI_Frota_recapagem_localizacao.sql no SQL Editor do Supabase antes de atualizar o site.
+- Em Movimentações de Pneus, o campo Número da recapagem aparece em Envio para recapagem e Retorno de recapagem.
+- O número é sugerido automaticamente como a quantidade de recapagens concluídas + 1.
+- No retorno da recapagem, o banco valida o mesmo número e atualiza o contador do pneu.
+- Controle da Frota > Localização dos Pneus mostra a localização atual: veículo e posição, estoque ou status de serviço. A página usa a permissão de visualização do módulo Pneus.
+- Controle da Frota > Movimentações de Pneus continua sendo o histórico cronológico completo das alterações.

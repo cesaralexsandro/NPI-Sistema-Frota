@@ -1,0 +1,68 @@
+/* NPI FROTA | Adaptação para telas menores. */
+/* ===== RESPONSIVO (tablet e celular) ===== */
+@media(max-width:1050px) {
+  .sidebar {
+    width: 230px;
+  }
+  .content {
+    padding: 25px 22px;
+  }
+  .stats {
+    grid-template-columns: repeat(2,1fr);
+  }
+  .dashboard-grid,
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+  .report-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width:700px) {
+  .sidebar {
+    position: fixed;
+    z-index: 30;
+    left: -270px;
+    top: 0;
+    bottom: 0;
+    width: 258px;
+    transition: .25s;
+  }
+  .sidebar.show {
+    left: 0;
+    box-shadow: 10px 0 40px rgba(0,0,0,.6);
+  }
+  .mobile-menu {
+    display: block;
+  }
+  .topbar {
+    padding: 0 16px;
+    height: 58px;
+  }
+  .content {
+    padding: 22px 14px;
+  }
+  .page-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .head-actions {
+    width: 100%;
+  }
+  .head-actions .btn {
+    flex: 1;
+    justify-content: center;
+  }
+  .form-grid,
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+  .help-button {
+    display: none;
+  }
+  .chart-wrap {
+    gap: 6px;
+  }
+}
+

@@ -1,0 +1,235 @@
+/* NPI FROTA | Tabelas, filtros, Kanban e listas. */
+/* ===== LISTAS (busca, tabela e Kanban de veículos) ===== */
+.toolbar {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  align-items: center;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 13px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+
+.search {
+  min-width: 210px;
+  flex: 1;
+  border: 1px solid var(--bd2);
+  background: var(--input);
+  border-radius: 7px;
+  padding: 9px 11px;
+  font-size: 12px;
+  outline: none;
+}
+
+.filter {
+  border: 1px solid var(--bd2);
+  border-radius: 7px;
+  padding: 8px 10px;
+  background: var(--input);
+  font-size: 12px;
+}
+
+.board-info {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.view-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.view-btn {
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.view-btn.active {
+  color: var(--text);
+  background: var(--soft);
+  box-shadow: inset 0 -2px var(--accent);
+}
+
+.row-actions {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.row-actions button {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+}
+
+.row-actions button:hover {
+  background: var(--line);
+  color: var(--text);
+}
+
+.row-actions .del:hover {
+  color: var(--accent2);
+}
+
+.board {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.column {
+  min-width: 245px;
+  flex: 1;
+  background: var(--soft);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.column.drop {
+  outline: 2px dashed var(--blue);
+  outline-offset: -2px;
+}
+
+.column-header {
+  padding: 11px 13px;
+  border-bottom: 3px solid var(--c);
+}
+
+.column-header h3 {
+  margin: 0;
+  font: 700 13px Manrope,Inter,system-ui,sans-serif;
+}
+
+.column-meta {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.deal-list {
+  flex: 1;
+  padding: 8px;
+  min-height: 120px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  margin-bottom: 7px;
+  padding: 11px;
+  cursor: grab;
+}
+
+.card:hover {
+  border-color: var(--accent2);
+}
+
+.card.dragging {
+  opacity: .45;
+}
+
+.card-title {
+  font: 700 13px Manrope,Inter,system-ui,sans-serif;
+}
+
+.card-company {
+  margin-top: 6px;
+}
+
+.card-bottom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 9px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.mini-avatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent2);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+/* Localização atual dos pneus */
+.tire-location-toolbar { margin-top: 14px; }
+.tire-location-stats { margin-bottom: 14px; }
+.tire-location-toolbar .btn { white-space: nowrap; }
+@media (max-width: 760px) {
+  .tire-location-toolbar .btn { width: 100%; justify-content: center; }
+}
+
+
+/* Feedback discreto enquanto uma mudança do Kanban é confirmada no Supabase. */
+.card.is-saving { opacity: .72; cursor: progress; pointer-events: none; }
+
+
+/* Paginação das listagens: mantém o DOM leve mesmo com muitos registros. */
+.records-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+.records-pagination-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.records-pagination-actions .btn {
+  min-height: 32px;
+  padding: 6px 11px;
+}
+.records-pagination-actions .btn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+.data-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 180px;
+}
+.data-loading [data-lucide] {
+  width: 18px;
+  height: 18px;
+  animation: npi-spin 1s linear infinite;
+}
+@keyframes npi-spin { to { transform: rotate(360deg); } }

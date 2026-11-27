@@ -1,0 +1,74 @@
+NPI FROTA | MÓDULO DE DESPESAS E RATEIOS
+========================================
+
+O QUE FOI ADICIONADO
+--------------------
+- Despesas: lançamento, vencimento, pagamento, empresa, filial, veículo,
+  categoria, fornecedor, documento fiscal, valores, forma de pagamento,
+  situação, centro de custo, projeto e observações.
+- Valor líquido calculado automaticamente: valor bruto - desconto + juros.
+- Rateios: distribuição de uma despesa por veículo OU centro de custo OU projeto.
+- Rateio por percentual ou por valor fixo.
+- Validações no formulário e no PostgreSQL para evitar duplicidade de
+  distribuição, valores acima da despesa e mistura de critérios.
+- Alertas de despesas pendentes próximas do vencimento no Dashboard.
+- Acesso protegido por empresa e pelas permissões de cada perfil.
+- Compatível com as tabelas iniciais da Etapa 2: acrescenta fornecedor_id,
+  empresa_id e veículo aos rateios; preserva o campo textual legado fornecedor.
+
+INSTALAÇÃO
+----------
+1. Faça backup da pasta atual do NPI FROTA.
+2. Abra o Supabase > SQL Editor > New Query.
+3. Abra NPI_Frota_despesas_rateios.txt e copie todo o conteúdo.
+4. Cole no SQL Editor e execute uma única vez.
+5. Se o Supabase retornar erro, pare e compartilhe a mensagem completa; não
+   continue substituindo arquivos até resolver o erro.
+6. Extraia o ZIP atualizado e substitua a pasta do projeto.
+7. Abra NPI_Frota no VS Code e inicie pelo Live Server.
+8. Saia e entre novamente para renovar as permissões carregadas na sessão.
+
+PRÉ-REQUISITOS DO BANCO
+-----------------------
+- Etapas iniciais do Supabase já instaladas.
+- Controle de perfis e permissões já configurado.
+- Cadastros auxiliares (fornecedores, filiais e centros de custo)
+  já instalados.
+
+REGRAS IMPORTANTES
+------------------
+- O valor líquido é calculado pelo banco: bruto - desconto + juros.
+- Uma despesa marcada como Paga exige data de pagamento.
+- O vencimento não pode ser anterior à data de lançamento.
+- Cada linha de rateio deve ter exatamente um destino: veículo, centro de
+  custo ou projeto.
+- Uma mesma despesa usa um único critério em todos os seus rateios:
+  Percentual ou Valor fixo.
+- A soma dos percentuais não pode ultrapassar 100%; no critério Valor fixo,
+  a soma não pode ultrapassar o valor líquido da despesa.
+- Depois de criar rateios, não altere o valor líquido da despesa. Remova e
+  refaça os rateios primeiro, para manter os valores distribuídos coerentes.
+- Uma despesa com rateios não pode ser cancelada ou excluída até que seus
+  rateios sejam removidos.
+- Administradores têm acesso conforme a regra de administração já existente.
+  Financeiro recebe acesso de inclusão/alteração/exclusão; Gestor de Frota e
+  Supervisor recebem consulta/exportação por padrão. Permissões existentes
+  e personalizadas não são sobrescritas pelo script.
+
+TESTE SUGERIDO
+--------------
+1. Cadastre uma despesa de teste com valor bruto de R$ 1.000,00, desconto de
+   R$ 50,00 e juros de R$ 10,00. O valor líquido esperado é R$ 960,00.
+2. Crie um rateio de 60% para um centro de custo. O valor calculado deverá ser
+   R$ 576,00.
+3. Crie outro rateio de 40% para um projeto. O valor calculado deverá ser
+   R$ 384,00.
+4. Confira as tabelas public.despesas e public.rateios no Supabase.
+5. Tente ultrapassar 100% ou distribuir mais que o valor líquido: o banco
+   deverá bloquear a operação.
+
+OBSERVAÇÃO
+----------
+A integração foi verificada estaticamente e os arquivos JavaScript passaram
+pela verificação de sintaxe do Node.js. A execução no Supabase e os testes
+funcionais precisam ser confirmados no seu próprio projeto após a instalação.

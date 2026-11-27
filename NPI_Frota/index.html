@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NPI FROTA - Gestão inteligente de frotas">
+  <title>NPI FROTA | Gestão de Frotas</title>
+  <!-- Tema inicial carregado antes dos estilos. -->
+  <script src="js/00-theme-boot.js"></script>
+  <!-- Ícones (Lucide) -->
+  <script src="https://unpkg.com/lucide@0.451.0/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="css/00-base.css">
+  <link rel="stylesheet" href="css/01-sidebar.css">
+  <link rel="stylesheet" href="css/02-topbar.css">
+  <link rel="stylesheet" href="css/03-content.css">
+  <link rel="stylesheet" href="css/04-dashboard.css">
+  <link rel="stylesheet" href="css/05-record-lists.css">
+  <link rel="stylesheet" href="css/06-reports.css">
+  <link rel="stylesheet" href="css/07-modals-toasts.css">
+  <link rel="stylesheet" href="css/08-responsive.css">
+  <link rel="stylesheet" href="css/09-auth.css">
+  <link rel="stylesheet" href="css/10-administration.css">
+  <link rel="stylesheet" href="css/11-driver-panel.css">
+  <link rel="stylesheet" href="css/12-notifications.css">
+  <link rel="stylesheet" href="css/13-checklist-history.css">
+</head>
+<body>
+  <!-- Estrutura geral: menu lateral + área principal -->
+  <div class="app-shell" hidden>
+    <!-- Menu lateral (montado pelos módulos JavaScript de interface) -->
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <!-- Barra superior: breadcrumb, tema, alertas e usuário -->
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu"><i data-lucide="menu"></i></button>
+        <div class="breadcrumb">NPI FROTA <span>/</span> <b id="crumb">Dashboard</b></div>
+        <div class="top-actions">
+          <button class="icon-button" id="themeBtn" title="Alternar tema claro/escuro"></button>
+          <div class="notification-anchor">
+            <button class="icon-button notification-bell" id="bellBtn" type="button" title="Notificações" aria-label="Notificações" aria-expanded="false" aria-controls="notificationPopover"><i data-lucide="bell"></i><em id="bellBadge" hidden></em></button>
+            <section class="notification-popover" id="notificationPopover" hidden aria-label="Central de notificações"></section>
+          </div>
+          <button class="help-button" id="helpButton">Ajuda</button>
+          <button type="button" class="top-avatar" id="switchUserButton" title="Conta do usuário" aria-label="Conta do usuário"><i data-lucide="user-round"></i></button>
+        </div>
+      </header>
+      <!-- Conteúdo da página -->
+      <section class="content">
+        <div class="page-head">
+          <div><div class="eyebrow">GESTÃO DE FROTAS</div><h1 id="pageTitle">Dashboard</h1><p id="pageSubtitle"></p></div>
+          <div class="head-actions"><button class="btn btn-light" id="exportBtn"><i data-lucide="download"></i> Exportar</button><button class="btn btn-primary" id="newBtn"><i data-lucide="plus"></i> Novo registro</button></div>
+        </div>
+        <!-- O renderizador de páginas monta o dashboard, listas e relatórios -->
+        <div id="workspace"></div>
+        <footer>© 2026 NPI Tecnologia · NPI FROTA</footer>
+      </section>
+    </main>
+  </div>
+  <!-- Tela neutra exibida enquanto o Supabase verifica a sessão salva. -->
+  <section class="startup-screen" id="startupScreen" aria-live="polite">
+    <div class="startup-card">
+      <img src="assets/npi-logo.png" alt="NPI Tecnologia" class="startup-logo">
+      <div class="startup-brand">NPI <strong>FROTA</strong></div>
+      <div class="startup-spinner" aria-hidden="true"></div>
+      <p id="startupMessage">Verificando sua sessão...</p>
+    </div>
+  </section>
+  <!-- Aviso rápido (toast) -->
+  <div class="toast" id="toast" role="status"></div>
+  <!-- Janela do formulário (criar/editar); os campos são gerados pelo módulo de formulários -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-head"><div><span class="eyebrow">CADASTRO</span><h2 id="modalTitle">Novo registro</h2></div><button type="button" class="close-modal" id="closeModal">×</button></div>
+      <form id="recordForm"><div id="formFields" class="form-grid"></div>
+        <div class="modal-actions"><button type="button" class="btn btn-light" id="cancelModal">Cancelar</button><button class="btn btn-primary" type="submit">Salvar registro</button></div>
+      </form>
+    </div>
+  </div>
+  <!-- Supabase JS v2 e configuração do projeto -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="supabase-client.js"></script>
+
+  <!-- Tela de autenticação: somente usuários cadastrados no Supabase Auth -->
+  <section class="auth-screen" id="authScreen" hidden>
+    <div class="auth-card">
+      <img src="assets/npi-logo.png" alt="NPI Tecnologia" class="auth-logo">
+      <div class="auth-brand">NPI <strong>FROTA</strong></div>
+      <h1>Acesse sua conta</h1>
+      <p>Escolha uma conta já utilizada neste computador ou entre com outro e-mail.</p>
+      <section class="remembered-accounts" id="rememberedAccounts" hidden aria-label="Contas utilizadas neste computador">
+        <div class="remembered-accounts-heading">
+          <strong>Contas neste computador</strong>
+          <span>Selecione uma conta para preencher o e-mail.</span>
+        </div>
+        <div class="remembered-account-list" id="rememberedAccountList"></div>
+      </section>
+      <form id="loginForm" autocomplete="on">
+        <label for="loginEmail">E-mail</label>
+        <input id="loginEmail" type="email" autocomplete="username" placeholder="seuemail@empresa.com" required>
+        <label for="loginPassword">Senha</label>
+        <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Digite sua senha" required>
+        <button class="btn btn-primary auth-submit" id="loginButton" type="submit">Entrar no NPI FROTA</button>
+      </form>
+      <div class="auth-feedback" id="authFeedback" role="status">Verificando conexão com o Supabase...</div>
+      <small class="auth-foot">Acesso protegido · NPI Tecnologia</small>
+    </div>
+  </section>
+
+  <!-- JavaScript separado por responsabilidade. Mantenha esta ordem: os arquivos compartilham o escopo global clássico. -->
+  <script src="js/01-config/module-config.js"></script>
+  <script src="js/02-core/helpers.js"></script>
+  <script src="js/03-data/schema.js"></script>
+  <script src="js/04-auth/access-control.js"></script>
+  <script src="js/03-data/supabase-repository.js"></script>
+  <script src="js/02-core/state.js"></script>
+  <script src="js/05-ui/navigation.js"></script>
+  <script src="js/05-ui/records-list.js"></script>
+  <script src="js/05-ui/dashboard-reports.js"></script>
+  <script src="js/06-modules/driver-panel.js"></script>
+  <script src="js/06-modules/administration.js"></script>
+  <script src="js/06-modules/notifications.js"></script>
+  <script src="js/06-modules/tire-location.js"></script>
+  <script src="js/05-ui/page-renderer.js"></script>
+  <script src="js/07-features/record-forms.js"></script>
+  <script src="js/07-features/export.js"></script>
+  <script src="js/05-ui/theme.js"></script>
+  <script src="js/08-app/ui-events.js"></script>
+  <script src="js/09-auth/auth-ui.js"></script>
+  <script src="js/09-auth/session.js"></script>
+  <script src="js/10-app/init.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+NPI FROTA — OTIMIZAÇÃO GERAL
+================================
+
+Melhorias desta versão:
+
+1. CARREGAMENTO SOB DEMANDA
+- No login do Dashboard são carregados somente os seis módulos usados nos indicadores básicos.
+- Os relacionamentos completos são carregados sob demanda ao abrir cada módulo; nomes vinculados são completados a partir do cache bruto.
+- Outros módulos são consultados na primeira abertura, incluindo seus relacionamentos.
+- Cache por módulo com validade de 45 segundos evita consultas repetidas ao navegar.
+- O painel do motorista continua usando suas consultas próprias.
+
+2. CONSULTAS SUPABASE
+- Consultas de módulo selecionam somente as colunas usadas pela interface.
+- As linhas são carregadas em blocos de 500, evitando o limite padrão de resposta e sem truncar silenciosamente o histórico.
+- Ao salvar/excluir, o sistema atualiza somente o módulo alterado e os módulos operacionais afetados.
+
+3. LISTAGENS
+- Tabelas mostram até 50 registros por página.
+- Busca usa debounce e atualiza somente a área de resultados, sem reconstruir o formulário de busca a cada tecla.
+- O texto pesquisável de cada registro fica indexado em memória enquanto aquele objeto estiver carregado.
+
+4. DASHBOARD
+- A soma das despesas percorre cada fonte uma vez, não uma vez por mês.
+- A lista de veículos recentes usa a ordenação mais recente retornada pelo Supabase.
+
+5. NOTIFICAÇÕES
+- Eventos realtime próximos são agrupados antes de buscar novamente a lista.
+- A primeira carga da central não bloqueia a abertura do painel.
+
+INSTALAÇÃO
+- Substitua a pasta do projeto por esta versão.
+- Não há migração SQL nesta atualização.
+- Faça testes de login, Dashboard, filtros, paginação, formulários, Kanban e painel do motorista.
+
+OBSERVAÇÕES
+- O cache expira em 45 segundos; a navegação pode usar dados recém-carregados durante esse período.
+- Após alterações feitas nesta interface, os módulos afetados são atualizados imediatamente.
+- A velocidade final continua dependendo da rede, volume de dados, índices do PostgreSQL e políticas RLS.

@@ -1,0 +1,41 @@
+NPI FROTA — SEGUROS E SINISTROS
+================================
+
+INSTALAÇÃO
+----------
+1. Confirme que as etapas de banco 1, 2 e 3 foram executadas e que o controle
+   de perfis/permissões e o cadastro de oficinas já estão instalados.
+2. Abra Supabase > SQL Editor > New Query.
+3. Execute o conteúdo de sql/NPI_Frota_seguros_sinistros.txt.
+4. Atualize os arquivos do site usando este pacote.
+5. Entre novamente no NPI FROTA e verifique Administração > Perfis e Permissões.
+
+SEGUROS
+-------
+Registra veículo, tipo de seguro, seguradora, número da apólice, corretora,
+telefone de assistência, início/fim de vigência, prêmio, valor segurado,
+franquia, coberturas, observações e anexo privado da apólice.
+
+SINISTROS
+---------
+Registra veículo, apólice vinculada, motorista, tipo e data da ocorrência,
+data de aviso, local, descrição, terceiros, boletim de ocorrência, número do
+sinistro, estimativa de danos, franquia, indenização, oficina, situação, data
+de encerramento e anexo privado. A apólice selecionada é filtrada pelo veículo.
+
+ANEXOS
+------
+PDF, JPG e PNG até 15 MB. O bucket npi-seguros-sinistros é privado. Os botões
+Abrir apólice/Abrir anexo geram URL assinada de curta duração.
+
+SEGURANÇA
+---------
+RLS isola os registros pela empresa do veículo, inclusive para usuários Administradores. Sinistros são obrigatoriamente
+vinculados a uma apólice do mesmo veículo. O motorista não recebe acesso aos
+módulos administrativos. As permissões de Sinistros são inicializadas copiando
+a matriz atual do módulo Seguros para cada perfil; depois podem ser ajustadas
+em Administração > Perfis e Permissões.
+
+SITUAÇÕES DE SEGUROS: Ativo, A vencer, Vencido, Suspenso, Cancelado.
+SITUAÇÕES DE SINISTROS: Aberto, Em análise, Aguardando documentos, Aprovado,
+Negado e Encerrado. Para encerrar um sinistro, informe a data de encerramento.

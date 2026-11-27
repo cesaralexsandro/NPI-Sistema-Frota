@@ -1,0 +1,31 @@
+NPI FROTA — UTILIZAÇÕES, CHECKLISTS, MODELOS E ITENS
+
+O QUE FOI ADICIONADO
+1. Utilizações: histórico de saída e devolução dos veículos. O sistema cria/atualiza o registro automaticamente a partir das tabelas retiradas e devolucoes.
+2. Checklists: consulta do histórico de inspeções, com botão para visualizar as respostas de cada item.
+3. Modelos de Checklist: cadastro, edição e desativação dos modelos usados na saída e na devolução.
+4. Itens de Checklist: cadastro, edição, ordenação e desativação dos itens vinculados a um modelo.
+
+INSTALAÇÃO
+1. Faça backup do projeto atual.
+2. No Supabase, abra SQL Editor > New Query.
+3. Abra sql/NPI_Frota_utilizacoes_checklists.txt, copie todo o conteúdo e execute uma única vez.
+4. Extraia o ZIP atualizado e substitua a pasta do projeto.
+5. Abra NPI_Frota/index.html pelo Live Server.
+
+PERMISSÕES
+- Utilizações e Checklists são históricos de consulta. Não podem ser criados, editados ou excluídos manualmente pelo formulário.
+- Modelos e Itens permitem incluir, alterar e excluir conforme as permissões RBAC do perfil.
+- O motorista continua consultando somente modelos e itens ativos por meio do Meu Painel.
+- A gravação de checklists continua feita pelas funções RPC protegidas do painel do motorista.
+
+FUNCIONAMENTO
+- Ao registrar uma retirada, um gatilho cria a utilização.
+- Ao registrar a devolução, o mesmo histórico recebe a data e a quilometragem finais.
+- Registros antigos de retiradas/devoluções são sincronizados ao executar a migração.
+- O histórico dos checklists pode ser aberto pela ação "Ver respostas do checklist".
+- Para preservar histórico, prefira alterar modelos/itens para Inativo em vez de excluí-los.
+
+OBSERVAÇÃO
+O campo "Tipo de resposta" está limitado a "Condição", compatível com o formulário atual do motorista (Conforme / Não conforme / Não se aplica). O campo de fotografia permanece configurável no cadastro, mas o fluxo atual do painel ainda não faz upload de fotos por item.
+Limitação desta versão: o campo “Exige fotografia” deve permanecer como “Não”. O upload de fotografias por item do checklist ainda não está implementado; não marque “Sim” até a inclusão desse recurso.

@@ -1,0 +1,25 @@
+NPI FROTA — BOTÃO PARA O MOTORISTA SE DESVINCULAR DE UM VEÍCULO
+
+O QUE FOI ADICIONADO
+- Cada cartão de veículo no Meu Painel mostra o botão "Desvincular veículo".
+- O motorista confirma a ação antes de continuar.
+- O botão chama a função segura npi_driver_unassign_vehicle no Supabase.
+- A atribuição é encerrada com ativo=false e data_fim preenchida.
+- O registro da atribuição e todo o histórico de retiradas, devoluções e checklists são preservados.
+
+REGRA DE SEGURANÇA
+- O motorista só pode encerrar um vínculo que pertença ao seu próprio cadastro.
+- Não é possível se desvincular se houver uma retirada em aberto para o veículo.
+- Não é possível se desvincular se o veículo ainda constar como "Em utilização".
+- Nesses casos, o motorista deve registrar a devolução ou pedir ao administrador para conferir a situação.
+
+INSTALAÇÃO
+1. Faça uma cópia de segurança da versão atual do NPI FROTA.
+2. No Supabase, abra SQL Editor > New Query.
+3. Abra ../sql/NPI_Frota_desvincular_veiculo.sql, copie todo o conteúdo e execute.
+4. Substitua a pasta do projeto pela pasta NPI_Frota deste ZIP.
+5. Abra pelo VS Code com Live Server e entre com o usuário Motorista.
+6. No Meu Painel, use "Desvincular veículo" no cartão desejado e confirme.
+
+OBSERVAÇÃO
+O recurso encerra o vínculo entre o motorista e aquele veículo. Ele não exclui a conta do usuário nem o cadastro de motorista. Um administrador poderá fazer uma nova atribuição depois.

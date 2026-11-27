@@ -1,0 +1,53 @@
+NPI FROTA — DOCUMENTOS E LICENCIAMENTO
+======================================
+
+O QUE FOI CONECTADO
+- CRUD do módulo Documentos na tabela public.documentos.
+- Relacionamento obrigatório com o veículo.
+- Tipos de documento: CRLV-e, Licenciamento anual, IPVA, laudo de vistoria,
+  tacógrafo, autorização especial, certificado de inspeção e outros.
+- Ano de referência para IPVA e licenciamento anual.
+- Número, emissão, validade, valor pago, data de pagamento, responsável,
+  situação e observações.
+- Anexo privado de PDF, JPG ou PNG no Supabase Storage (limite de 15 MB).
+- Botão para abrir o anexo por link temporário assinado.
+- Alertas do Dashboard para documentos vencidos ou com vencimento em até 30 dias.
+- Relatório/exportação de documentos conforme a permissão do perfil.
+
+INSTALAÇÃO
+1. Faça backup da pasta atual do NPI FROTA.
+2. No Supabase, abra SQL Editor > New Query.
+3. Abra sql/NPI_Frota_documentos_licenciamento.txt e copie o conteúdo completo.
+4. Cole no SQL Editor e clique em Run.
+5. Extraia o ZIP atualizado e substitua a pasta do projeto anterior.
+6. Abra a pasta NPI_Frota pelo VS Code usando Live Server.
+7. Entre com usuário que tenha permissão no módulo Documentos.
+
+IMPORTANTE
+- A tabela public.documentos já existe desde a Etapa 2. O script complementa os
+  campos de exercício, valor pago, data de pagamento e observações. Não apaga
+  documentos existentes.
+- O script exige as funções de controle de acesso criadas em
+  sql/NPI_Frota_perfis_permissoes.sql e a tabela public.veiculos.
+- O bucket npi-documentos-veiculos é privado. O arquivo fica em uma pasta cujo
+  primeiro segmento é o UUID do veículo. O navegador nunca recebe URL pública.
+- O acesso à tabela e aos anexos é limitado pela empresa do veículo e pelas
+  permissões do módulo Documentos.
+- Tipos aceitos: PDF, JPG/JPEG e PNG. Tamanho máximo: 15 MB.
+- Ao substituir um anexo, o caminho antigo não é apagado automaticamente para
+  evitar exclusão acidental de comprovantes anteriores. Faça a limpeza de arquivos
+  antigos somente por procedimento administrativo controlado.
+- Para IPVA e Licenciamento anual, o ano de referência é obrigatório. Se marcar
+  como Pago, informe também a data e o valor pago.
+- A validade não pode ser anterior à data de emissão.
+
+TESTE RECOMENDADO
+1. Acesse Controle da Frota > Documentos > Novo registro.
+2. Selecione o veículo de teste.
+3. Selecione CRLV-e, Licenciamento anual ou IPVA.
+4. Para licenciamento/IPVA, preencha o ano de referência.
+5. Informe número, emissão, validade e responsável.
+6. Anexe um PDF de teste (até 15 MB) e salve.
+7. Confira o registro em Supabase > Table Editor > documentos.
+8. Clique no botão de arquivo na listagem para abrir o link temporário.
+9. Confira o Dashboard para alertas de documentos próximos do vencimento.

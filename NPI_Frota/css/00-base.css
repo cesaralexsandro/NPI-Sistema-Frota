@@ -1,0 +1,90 @@
+/* NPI FROTA | Variáveis, tipografia, reset e estilos globais. */
+/* =====================================================================
+   NPI FROTA — estilos base
+   Layout original do Frota + paleta e tema escuro do NPI CRM.
+
+   Para trocar as cores do sistema, edite as variáveis abaixo:
+   - :root                  => tema CLARO
+   - html[data-theme=dark]  => tema ESCURO (padrão)
+   ===================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
+:root {
+  /* Barra lateral */
+  --sidebar: #000;
+  --side-hover: #4b4a4a;
+  /* Cores de destaque (vermelho do CRM) e de status */
+  --accent: #d43c16;
+  --accent2: #e64b43;
+  --green: #2e9b57;
+  --orange: #f2a43c;
+  --blue: #667eea;
+  /* Texto, fundos e bordas */
+  --text: #273142;
+  --muted: #77808d;
+  --line: #e4e7eb;
+  --bg: #f6f7f9;
+  --panel: #fff;
+  --soft: #f0f1f3;
+  --input: #fff;
+  --bd2: #ccd1d7;
+  --shadow: 0 8px 30px rgba(21,39,66,.06);
+}
+
+html[data-theme=dark] {
+  /* Só o que muda no tema escuro */
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --line: #334155;
+  --bg: #0f172a;
+  --panel: #111827;
+  --soft: #1e293b;
+  --input: #0f172a;
+  --bd2: #334155;
+  --sidebar: #000;
+  --side-hover: #1e293b;
+  --shadow: 0 8px 30px rgba(0,0,0,.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans',Inter,system-ui,sans-serif;
+  font-size: 14px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none!important;
+}
+
+i[data-lucide],
+svg.lucide {
+  width: 1em;
+  height: 1em;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+}
+

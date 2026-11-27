@@ -1,0 +1,16 @@
+/* Arquivo agregador de compatibilidade. O index carrega os arquivos CSS separados. */
+@import url("css/00-base.css");
+@import url("css/01-sidebar.css");
+@import url("css/02-topbar.css");
+@import url("css/03-content.css");
+@import url("css/04-dashboard.css");
+@import url("css/05-record-lists.css");
+@import url("css/06-reports.css");
+@import url("css/07-modals-toasts.css");
+@import url("css/08-responsive.css");
+@import url("css/09-auth.css");
+@import url("css/10-administration.css");
+@import url("css/11-driver-panel.css");
+@import url("css/12-notifications.css");
+
+@import url("css/13-checklist-history.css");

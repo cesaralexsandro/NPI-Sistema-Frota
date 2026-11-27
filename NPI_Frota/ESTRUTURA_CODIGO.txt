@@ -1,0 +1,177 @@
+NPI FROTA — ESTRUTURA DO CÓDIGO
+================================
+
+O projeto foi dividido por responsabilidade para facilitar manutenção e evolução.
+A interface continua usando HTML, CSS e JavaScript sem etapa de compilação.
+Abra a pasta NPI_Frota pelo VS Code e execute index.html com Live Server.
+
+ESTRUTURA
+---------
+index.html                  Estrutura da página e ordem de carregamento.
+supabase-config.js          URL e chave pública (publishable) do projeto.
+supabase-client.js          Inicialização do cliente Supabase.
+styles.css                  Agregador de compatibilidade dos estilos.
+sql/                         Scripts SQL do Supabase, agrupados por etapa.
+docs/                        Guias de instalação e instruções por módulo.
+css/                        Estilos separados por área da interface.
+  00-base.css               Variáveis, fonte, reset e estilos globais.
+  01-sidebar.css            Menu lateral.
+  02-topbar.css             Barra superior.
+  03-content.css            Área de conteúdo e cabeçalho.
+  04-dashboard.css          Dashboard e indicadores.
+  05-record-lists.css       Tabelas, filtros e Kanban.
+  06-reports.css            Relatórios.
+  07-modals-toasts.css      Formulários, modais e notificações.
+  08-responsive.css         Responsividade.
+  09-auth.css               Login e componentes de autenticação.
+  10-administration.css     Telas administrativas e permissões.
+  11-driver-panel.css        Painel do motorista.
+  12-notifications.css       Sino, popover e central de notificações.
+js/                         JavaScript separado por responsabilidade.
+  00-theme-boot.js          Aplica o tema antes de carregar a interface.
+  01-config/                 Configuração de menus, módulos e campos.
+  02-core/                   Funções utilitárias e estado compartilhado.
+  03-data/                   Mapeamento e comunicação com o Supabase.
+  04-auth/                   Controle de acesso baseado em perfis.
+  05-ui/                     Navegação, listas, dashboard e renderização.
+  06-modules/                Funcionalidades de motorista, administração e localização dos pneus.
+    tire-location.js         Visão atual de onde cada pneu está instalado, em estoque ou em serviço.
+    notifications.js         Central individual, envio administrativo e atualização em tempo real.
+  07-features/               Formulários, CRUD e exportação.
+  08-app/                    Eventos globais e inicialização.
+  09-auth/                   Login, contas lembradas e sessão.
+
+ORDEM DE CARREGAMENTO
+---------------------
+Os scripts são carregados no final do body, em ordem explícita no index.html.
+Eles usam scripts clássicos (não ES modules) para preservar compatibilidade com
+o código existente e compartilhar funções/estado sem alterar a lógica do sistema.
+Não reorganize as tags script sem revisar dependências.
+
+SUPABASE
+--------
+A configuração pública permanece em supabase-config.js e o cliente é criado em
+supabase-client.js. Nunca coloque sb_secret ou service_role no navegador.
+As políticas RLS do Supabase continuam sendo a proteção real dos dados.
+
+MANUTENÇÃO
+----------
+- Configuração de campos e módulos: js/01-config/module-config.js
+- Consultas e gravações Supabase: js/03-data/
+- Perfis e permissões da interface: js/04-auth/access-control.js
+- Meu Painel do Motorista: js/06-modules/driver-panel.js
+- Administração: js/06-modules/administration.js
+  06-modules/notifications.js
+- Localização atual dos pneus: js/06-modules/tire-location.js
+- Formulários e CRUD genérico: js/07-features/record-forms.js
+- Login e sessão: js/09-auth/
+- Layout visual: css/
+
+A divisão foi feita sem alterar a lógica de negócio. A ordem original das
+declarações e dos eventos foi preservada.
+
+
+ETAPA 6 — MANUTENÇÕES
+---------------------
+- Campos, menus e opções: js/01-config/module-config.js
+- Tipos de campos e formatação: js/02-core/helpers.js
+- Mapeamento da tabela manutencoes: js/03-data/schema.js
+- Leitura e gravação Supabase: js/03-data/supabase-repository.js
+- Formulário e cálculo de custos: js/07-features/record-forms.js
+- Alertas de próxima manutenção: js/05-ui/dashboard-reports.js
+- Políticas RLS e atualização de situação do veículo: sql/NPI_Frota_manutencoes.sql
+
+
+ETAPA 7 — PNEUS E MOVIMENTAÇÕES DE PNEUS
+----------------------------------------
+- Configuração de campos, situações e menu: js/01-config/module-config.js
+- Tipos de campos e formatação de medidas: js/02-core/helpers.js
+- Mapeamento Supabase: js/03-data/schema.js
+- Consulta e conversão de registros: js/03-data/supabase-repository.js
+- Formulários e validações: js/07-features/record-forms.js
+- Listagem e histórico imutável: js/05-ui/records-list.js
+- Alertas de profundidade de sulco: js/05-ui/dashboard-reports.js
+- Migração SQL, RLS e sincronização do estado: sql/NPI_Frota_pneus.sql
+
+O cadastro de pneus permite registrar identificação, marca/modelo, medida, DOT,
+número de série, aquisição, fornecedor, profundidade, pressão e vida útil. O
+histórico de movimentações registra instalação, rodízio, remoção, reparo,
+recapagem, inspeção e descarte. O estado atual do pneu é atualizado pelo banco.
+As movimentações são históricas e não podem ser editadas ou excluídas pela tela.
+- A página Localização dos Pneus é uma visão atual derivada dos mesmos cadastros; usa a permissão de visualização do módulo Pneus.
+
+
+ETAPA 8 — CENTRAL DE NOTIFICAÇÕES
+---------------------------------
+- Interface do sino e comunicados: js/06-modules/notifications.js
+- Menu, título da página e módulo de permissões: js/01-config/module-config.js e js/03-data/schema.js
+- Controle exclusivo de envio para administradores: js/04-auth/access-control.js
+- Painel administrativo: Administração > Notificações
+- Central individual: sino na barra superior
+- Migração, RPCs, RLS e publicação Realtime: sql/NPI_Frota_notificacoes.sql
+
+As notificações são gravadas individualmente para cada destinatário. O usuário pode
+marcar avisos como lidos e arquivá-los; o administrador pode enviar para toda a
+empresa, perfis específicos ou usuários escolhidos. O sino recebe novos avisos
+em tempo real quando o sistema está aberto. Os avisos não lidos permanecem no
+banco e aparecem quando o usuário entrar novamente. Esta etapa implementa avisos
+dentro do NPI FROTA; não envia e-mail, SMS, WhatsApp ou push do navegador.
+
+
+OTIMIZAÇÃO DE DESEMPENHO
+------------------------
+- O Kanban atualiza a situação do veículo imediatamente na interface (atualização otimista).
+- A mudança é persistida somente na linha correspondente da tabela veiculos.
+- O quadro não recarrega todos os módulos depois de cada arraste.
+- Em caso de erro de rede/RLS ou conflito de alteração concorrente, a situação anterior é restaurada.
+- As consultas iniciais/recargas gerais dos módulos conectados são realizadas em paralelo; os relacionamentos continuam sendo mapeados após o recebimento dos dados.
+- Nenhum SQL é necessário para esta otimização.
+
+
+ETAPA — DOCUMENTOS E LICENCIAMENTO
+----------------------------------
+- Campos, tipos de documento e estados: js/01-config/module-config.js
+- Mapeamento da tabela documentos: js/03-data/schema.js
+- Upload privado e link temporário do anexo: js/07-features/record-forms.js
+- Botão para abrir anexo na listagem: js/05-ui/page-renderer.js e records-list.js
+- Alertas de vencimento no Dashboard: js/05-ui/dashboard-reports.js
+- Migração, RLS e bucket privado: sql/NPI_Frota_documentos_licenciamento.sql
+
+
+ETAPA — SEGUROS E SINISTROS
+---------------------------
+- Menus, campos, opções e situações: js/01-config/module-config.js
+- Mapeamento das tabelas seguros e sinistros: js/03-data/schema.js
+- Consultas, dependências, cache e atualização após gravação: js/03-data/supabase-repository.js
+- Formulários, validações, upload privado e links temporários: js/07-features/record-forms.js
+- Botões de visualização de apólice/anexo: js/05-ui/records-list.js e page-renderer.js
+- Alertas de vigência e sinistros abertos: js/05-ui/dashboard-reports.js
+- Migração SQL, RLS, permissões e bucket privado: sql/NPI_Frota_seguros_sinistros.sql
+
+O módulo Seguros aproveita a tabela public.seguros criada na Etapa 2. A migração
+complementa dados da apólice e adiciona public.sinistros, vinculada à apólice e
+ao mesmo veículo por chave estrangeira composta. PDFs e imagens são guardados
+no bucket privado npi-seguros-sinistros, com links temporários e políticas por
+empresa, veículo e módulo.
+
+
+Atualização de 19/11/2026 — Operações e Checklists
+- js/03-data/schema.js: mapeamento de Utilizações, Checklists, Modelos e Itens de Checklist.
+- js/03-data/supabase-repository.js: sincronização/cache dos históricos de utilização e checklist.
+- js/05-ui/records-list.js + js/05-ui/page-renderer.js: listas de histórico e ação para consultar respostas.
+- js/07-features/record-forms.js: CRUD de modelos/itens e visualização detalhada de respostas.
+- css/13-checklist-history.css: estilo do painel de respostas do checklist.
+- sql/NPI_Frota_utilizacoes_checklists.sql: gatilhos, backfill, RLS e permissões.
+
+
+SQL operacional complementar:
+- sql/NPI_Frota_aprovacao_km_data_devolucao.sql: autorização auditada de divergência de hodômetro e data/hora efetiva de devolução.
+- docs/LEIA-ME_AJUSTE_KM_E_DEVOLUCAO.txt: instalação e testes desse fluxo.
+
+
+ATUALIZAÇÃO — UTILIZAÇÕES COM HORÁRIO (19/11/2026)
+--------------------------------------------------
+- A lista de Utilizações agora apresenta Data/hora de saída e Data/hora de retorno.
+- Os horários vêm diretamente de data_saida e data_retorno, sincronizados pelas operações de retirada/devolução.
+- Timestamps ISO são exibidos no fuso local do navegador, em formato DD/MM/AAAA HH:MM.
+- Não requer alteração no Supabase: os campos já são preenchidos pelos gatilhos de sincronização.
